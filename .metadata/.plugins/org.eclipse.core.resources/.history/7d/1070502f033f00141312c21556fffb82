@@ -42,10 +42,4 @@ public class TextBuddyTest {
 		tb.executeCommand("sort");
 		assertEquals("1. a\n2. b\n",tb.executeCommand("display"));
 	}
-
-	//Search for nothing.
-	@Test
-	public void searchTc1() {
-		assertEquals("Search invalid.", tb.executeCommand("search"));
-	}
 }
