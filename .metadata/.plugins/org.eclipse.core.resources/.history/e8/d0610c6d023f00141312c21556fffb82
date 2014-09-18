@@ -25,4 +25,22 @@ public class TextBuddyTest {
 	public void sortTc1() {
 		assertEquals("Successfully sorted \"test.txt\"", tb.executeCommand("sort"));
 	}
+	
+	//Sort one item.
+	@Test
+	public void sortTc2() {
+		tb.executeCommand("add a");
+		tb.executeCommand("sort");
+		assertEquals("1. a\n",tb.executeCommand("display"));
+	}
+	
+	//Sort two or more items.
+	@Test
+	public void sortTc3() {
+		tb.executeCommand("add b");
+		tb.executeCommand("add a");
+		tb.executeCommand("sort");
+		assertEquals("1. a\n2. b\n",tb.executeCommand("display"));
+	}
+
 }

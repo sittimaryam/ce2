@@ -25,4 +25,5 @@ public class TextBuddyTest {
 	public void sortTc1() {
 		assertEquals("Successfully sorted \"test.txt\"", tb.executeCommand("sort"));
 	}
+
 }

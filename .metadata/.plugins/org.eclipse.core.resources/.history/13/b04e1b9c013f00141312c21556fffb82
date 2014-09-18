@@ -23,6 +23,7 @@ public class TextBuddyTest {
 	//Sort nothing.
 	@Test
 	public void sortTc1() {
-		assertEquals("Successfully sorted \"test.txt\"", tb.executeCommand("sort"));
+		assertEquals("Successfully sorted test.txt", tb.executeCommand("sort"));
 	}
+
 }
