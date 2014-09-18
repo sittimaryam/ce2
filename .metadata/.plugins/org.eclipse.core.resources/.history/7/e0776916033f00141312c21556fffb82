@@ -33,13 +33,4 @@ public class TextBuddyTest {
 		tb.executeCommand("sort");
 		assertEquals("1. a\n",tb.executeCommand("display"));
 	}
-	
-	//Sort two or more items.
-	@Test
-	public void sortTc3() {
-		tb.executeCommand("add b");
-		tb.executeCommand("add a");
-		tb.executeCommand("sort");
-		assertEquals("1. a\n2. b\n",tb.executeCommand("display"));
-	}
 }
