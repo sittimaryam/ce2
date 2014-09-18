@@ -195,12 +195,16 @@ public class TextBuddy {
 		if (textInput == null || textInput.trim().length()==0) {
 			return MESSAGE_SEARCH_INVALID;
 		}
-		for (String item:list) {
-			if (item.contains(textInput)) {
-				return "- "+item+"\n";
+		return "- "+textInput+"\n";
+		/*for(int i = 0; i <list.size(); i++){
+			String temp = list.get(i);
+			if(temp.contains(textInput)){
+				System.out.println(String.format(MESSAGE_SEARCH_SUCCESS, textInput));
 			}
-		}
-		return null;
+			else{
+				System.out.println(String.format(MESSAGE_SEARCH_FAIL, textInput));
+			}
+		}*/
 	}
 }
 

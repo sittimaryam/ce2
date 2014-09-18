@@ -200,7 +200,6 @@ public class TextBuddy {
 				return "- "+item+"\n";
 			}
 		}
-		return null;
 	}
 }
 
