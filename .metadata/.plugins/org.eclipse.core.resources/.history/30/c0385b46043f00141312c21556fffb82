@@ -68,6 +68,6 @@ public class TextBuddyTest {
 	public void searchTc4() {
 		tb.executeCommand("add apple1");
 		tb.executeCommand("add apple2");
-		assertEquals("- apple1\n- apple2\n", tb.executeCommand("search app"));
+		assertEquals("- apple\n", tb.executeCommand("search app"));
 	}
 }

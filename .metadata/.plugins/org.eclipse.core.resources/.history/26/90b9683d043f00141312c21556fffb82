@@ -195,13 +195,12 @@ public class TextBuddy {
 		if (textInput == null || textInput.trim().length()==0) {
 			return MESSAGE_SEARCH_INVALID;
 		}
-		String returnString = "";
 		for (String item:list) {
 			if (item.contains(textInput)) {
-				returnString += "- "+item+"\n";
+				return "- "+item+"\n";
 			}
 		}
-		return returnString;
+		return null;
 	}
 }
 
