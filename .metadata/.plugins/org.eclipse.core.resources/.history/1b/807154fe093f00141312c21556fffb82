@@ -31,7 +31,7 @@ public class TextBuddyTest {
 	public void sortTc2() {
 		tb.executeCommand("add a");
 		tb.executeCommand("sort");
-		assertEquals("1. a",tb.executeCommand("display"));
+		assertEquals("1. a\n",tb.executeCommand("display"));
 	}
 	
 	//Sort two or more items.
@@ -40,7 +40,7 @@ public class TextBuddyTest {
 		tb.executeCommand("add b");
 		tb.executeCommand("add a");
 		tb.executeCommand("sort");
-		assertEquals("1. a\n2. b",tb.executeCommand("display"));
+		assertEquals("1. a\n2. b\n",tb.executeCommand("display"));
 	}
 
 	//Search for nothing.
@@ -53,14 +53,14 @@ public class TextBuddyTest {
 	@Test
 	public void searchTc2() {
 		tb.executeCommand("add apple");
-		assertEquals("- apple", tb.executeCommand("search apple"));
+		assertEquals("- apple\n", tb.executeCommand("search apple"));
 	}
 	
 	//Search for one partial item.
 	@Test
 	public void searchTc3() {
 		tb.executeCommand("add apple");
-		assertEquals("- apple", tb.executeCommand("search app"));
+		assertEquals("- apple\n", tb.executeCommand("search app"));
 	}
 
 	//Search for two or more partial items.
@@ -68,7 +68,7 @@ public class TextBuddyTest {
 	public void searchTc4() {
 		tb.executeCommand("add apple1");
 		tb.executeCommand("add apple2");
-		assertEquals("- apple1\n- apple2", tb.executeCommand("search app"));
+		assertEquals("- apple1\n- apple2\n", tb.executeCommand("search app"));
 	}
 	
 	//Search for non-existent item.
