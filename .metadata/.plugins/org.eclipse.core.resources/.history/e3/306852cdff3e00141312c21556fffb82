@@ -1,0 +1,206 @@
+//A0112675H : Sitti Maryam binte Rashid Ridza
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+public class TextBuddy {
+	
+	private String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use";
+	private String MESSAGE_INVALID = "Invalid command!";
+	private String MESSAGE_ADDED = "added to %s: \"%s\"\n";
+	private String MESSAGE_CLEAR = "all content deleted from %s \n";
+	private String MESSAGE_COMMAND = "command: ";
+	private String MESSAGE_DELETE = "deleted from %s: \"%s\"\n";
+	private String MESSAGE_EMPTY = "%s is empty\n";
+	private String MESSAGE_SEARCH_FAIL = "%s is not found. \n";
+	private String MESSAGE_SEARCH_SUCCESS = "%s is found. \n";
+
+	private File newFile, tempFile;
+	private BufferedWriter buffWriter;
+
+	private Scanner scanner = new Scanner(System.in);
+	
+	// use ArrayList to store the input by user
+	private final ArrayList<String> list = new ArrayList<String>();
+
+	public static void main(String[] args) throws IOException {
+		TextBuddy tb = new TextBuddy(args);
+		tb.execute();
+	}
+
+	public TextBuddy(String[] args) {
+		String fileName = args[0];
+		newFile = checkFile(fileName);
+	}
+
+	public void execute() {
+		System.out.println(String.format(MESSAGE_WELCOME, newFile));
+		String commandInput;
+		String commandType;
+		String textInput;
+		while (true) {
+
+			System.out.print(MESSAGE_COMMAND);
+			commandInput = scanner.nextLine();
+
+			textInput = removeCommandType(commandInput);
+			commandType = getFirstWord(commandInput.toUpperCase());
+
+			String printString = executeCommand(commandType, textInput, newFile);
+			
+			showToUser(printString);
+		}
+	}
+	
+	private void showToUser(String printString) {
+		System.out.println(printString);
+	}
+
+	private File checkFile(String fileName) {
+
+		File checkNewFile = new File(fileName);
+		try {
+			if (!checkNewFile.exists())
+				checkNewFile.createNewFile();
+			else {
+				String line;
+				BufferedReader buffReader = new BufferedReader(new FileReader(
+						fileName));
+				while ((line = buffReader.readLine()) != null) {
+					list.add(line);
+				}
+				buffReader.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return checkNewFile;
+	}
+
+	private String getFirstWord(String commandInput) {
+		StringTokenizer commandToken = new StringTokenizer(commandInput);
+		return commandToken.nextToken();
+	}
+
+	private String removeCommandType(String commandInput) {
+		return commandInput.replace(getFirstWord(commandInput), "").trim();
+	}
+
+	public String executeCommand(String commandType, String textInput) {
+
+		switch (commandType) {
+
+		case "EXIT":	System.exit(0);
+						
+		case "ADD":		return add(textInput);
+		
+		case "DELETE":	return delete(textInput);
+
+		case "DISPLAY":	return display();
+
+		case "CLEAR":	return clear();
+		
+		case "SORT":	return sort();
+						
+		case "SEARCH":	return search(textInput);
+
+		default:		return MESSAGE_INVALID;
+		}
+	}
+
+	private void writeToFile(String textInput, File fileName) {
+
+		try {
+
+			FileWriter file = new FileWriter(fileName, true);
+
+			buffWriter = new BufferedWriter(file);
+			buffWriter.write(textInput);
+			buffWriter.newLine();
+			buffWriter.flush();
+			buffWriter.close();
+			file.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private String add(String textInput, File fileName){
+		list.add(textInput);
+		writeToFile(textInput, newFile);
+		return String.format(MESSAGE_ADDED, newFile, textInput);
+	}
+	
+	private String delete(String textInput, File fileName){
+		
+		int index = Integer.parseInt(textInput);
+		if(index > 0 && list.size() >= index){
+			index = index - 1; //index start at 0
+			String deletedText = list.get(index);
+			list.remove(index);
+			tempFile = new File("store.txt");
+			for(int i = 0; i<list.size(); i++) {
+				writeToFile(list.get(i), tempFile);
+			}
+			newFile.delete();
+			tempFile.renameTo(newFile);
+			return String.format(MESSAGE_DELETE, newFile, deletedText);
+		}
+		else {
+			return String.format(MESSAGE_INVALID, fileName);
+		}
+	}
+	
+	private String clear(File fileName){
+		BufferedWriter outputFile;
+		try{
+			outputFile = new BufferedWriter(new FileWriter(fileName.getName(), false));
+			outputFile.write("");
+			outputFile.close();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		list.clear();
+		return String.format(MESSAGE_CLEAR, fileName);
+	}
+	
+	private String display(File fileName){
+		if (list.isEmpty()) {
+			return String.format(MESSAGE_EMPTY, newFile);
+		}
+
+		String returnString = "";
+		for (int i = 0; i < list.size(); i++) {
+			returnString += i + 1 + ". ";
+			returnString += list.get(i) + "\n";
+		}
+		return returnString;
+	}
+	
+	private String sort(File fileName){
+		return null;
+	}
+	
+	private String search(String textInput, File fileName){
+		return null;
+		/*for(int i = 0; i <list.size(); i++){
+			String temp = list.get(i);
+			if(temp.contains(textInput)){
+				System.out.println(String.format(MESSAGE_SEARCH_SUCCESS, textInput));
+			}
+			else{
+				System.out.println(String.format(MESSAGE_SEARCH_FAIL, textInput));
+			}
+		}*/
+	}
+}
+

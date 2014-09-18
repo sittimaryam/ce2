@@ -1,59 +1,65 @@
 //A0112675H : Sitti Maryam binte Rashid Ridza
 
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class TextBuddy {
 	
-	private static String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use";
-	private static String MESSAGE_INVALID = "Invalid command!";
-	private static String MESSAGE_ADDED = "added to %s: \"%s\"\n";
-	private static String MESSAGE_CLEAR = "all content deleted from %s \n";
-	private static String MESSAGE_COMMAND = "command: ";
-	private static String MESSAGE_DELETE = "deleted from %s: \"%s\"\n";
-	private static String MESSAGE_EMPTY = "%s is empty\n";
-	private static String MESSAGE_SEARCH_FAIL = "%s is not found. \n";
-	private static String MESSAGE_SEARCH_SUCCESS = "%s is found. \n";
+	private String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use";
+	private String MESSAGE_INVALID = "Invalid command!";
+	private String MESSAGE_ADDED = "added to %s: \"%s\"";
+	private String MESSAGE_CLEAR = "all content deleted from %s ";
+	private String MESSAGE_COMMAND = "command: ";
+	private String MESSAGE_DELETE = "deleted from %s: \"%s\"";
+	private String MESSAGE_EMPTY = "%s is empty";
+	private String MESSAGE_SEARCH_FAIL = "%s is not found.";
+	private String MESSAGE_SEARCH_SUCCESS = "%s is found.";
+	private String MESSAGE_SORT_SUCCESS = "Successfully sorted \"%s\"";
 
-	private static File newFile, tempFile;
-	private static BufferedWriter buffWriter;
+	private File newFile, tempFile;
+	private BufferedWriter buffWriter;
 
-	private static Scanner scanner = new Scanner(System.in);
+	private Scanner scanner = new Scanner(System.in);
 	
 	// use ArrayList to store the input by user
-	private final static ArrayList<String> list = new ArrayList<String>();
+	private final ArrayList<String> list = new ArrayList<String>();
 
 	public static void main(String[] args) throws IOException {
+		TextBuddy tb = new TextBuddy(args);
+		tb.execute();
+	}
 
+	public TextBuddy(String[] args) {
 		String fileName = args[0];
-		String commandInput, commandType, textInput;
-
 		newFile = checkFile(fileName);
+	}
 
+	public void execute() {
 		System.out.println(String.format(MESSAGE_WELCOME, newFile));
 
 		while (true) {
 
 			System.out.print(MESSAGE_COMMAND);
-			commandInput = scanner.nextLine();
+			String userCommand = scanner.nextLine();
 
-			textInput = removeCommandType(commandInput);
-			commandType = getFirstWord(commandInput.toUpperCase());
-
-			executeCommand(commandType, textInput, newFile);
+			String printString = executeCommand(userCommand);
+			
+			showToUser(printString);
 		}
-
+	}
+	
+	private void showToUser(String printString) {
+		System.out.println(printString);
 	}
 
-	private static File checkFile(String fileName) {
+	private File checkFile(String fileName) {
 
 		File checkNewFile = new File(fileName);
 		try {
@@ -75,44 +81,41 @@ public class TextBuddy {
 		return checkNewFile;
 	}
 
-	private static String getFirstWord(String commandInput) {
+	private String getFirstWord(String commandInput) {
 		StringTokenizer commandToken = new StringTokenizer(commandInput);
 		return commandToken.nextToken();
 	}
 
-	private static String removeCommandType(String commandInput) {
+	private String removeCommandType(String commandInput) {
 		return commandInput.replace(getFirstWord(commandInput), "").trim();
 	}
 
-	private static void executeCommand(String commandType, String textInput, File newFile) {
+	public String executeCommand(String userCommand) {
+		
+		String textInput = removeCommandType(userCommand);
+		String commandType = getFirstWord(userCommand.toUpperCase());
 
 		switch (commandType) {
 
 		case "EXIT":	System.exit(0);
 						
-		case "ADD":		add(textInput, newFile);
-						break;
+		case "ADD":		return add(textInput);
 		
-		case "DELETE":	delete(textInput, newFile);		
-						break;
+		case "DELETE":	return delete(textInput);
 
-		case "DISPLAY":	display(newFile);
-						break;
+		case "DISPLAY":	return display();
 
-		case "CLEAR":	clear(newFile);
-						break;
+		case "CLEAR":	return clear();
 		
-		case "SORT":	sort(newFile);
-						break;
+		case "SORT":	return sort();
 						
-		case "SEARCH":	search(textInput, newFile);
-						break;
+		case "SEARCH":	return search(textInput);
 
-		default:		System.out.println(MESSAGE_INVALID);
+		default:		return MESSAGE_INVALID;
 		}
 	}
 
-	private static void writeToFile(String textInput, File fileName) {
+	private void writeToFile(String textInput, File fileName) {
 
 		try {
 
@@ -130,61 +133,65 @@ public class TextBuddy {
 		}
 	}
 	
-	private static void add(String textInput, File fileName){
+	private String add(String textInput){
 		list.add(textInput);
 		writeToFile(textInput, newFile);
-		System.out.println(String.format(MESSAGE_ADDED, newFile, textInput));
+		return String.format(MESSAGE_ADDED, newFile, textInput);
 	}
 	
-	private static void delete(String textInput, File fileName){
+	private String delete(String textInput){
 		
 		int index = Integer.parseInt(textInput);
 		if(index > 0 && list.size() >= index){
 			index = index - 1; //index start at 0
 			String deletedText = list.get(index);
 			list.remove(index);
-			System.out.println(String.format(MESSAGE_DELETE, newFile, deletedText));
 			tempFile = new File("store.txt");
-			for(int i = 0; i<list.size(); i++){
-			writeToFile(list.get(i), tempFile);
+			for(int i = 0; i<list.size(); i++) {
+				writeToFile(list.get(i), tempFile);
 			}
 			newFile.delete();
 			tempFile.renameTo(newFile);
+			return String.format(MESSAGE_DELETE, newFile, deletedText);
 		}
-		else
-			System.out.println(String.format(MESSAGE_INVALID, fileName));
+		else {
+			return String.format(MESSAGE_INVALID, newFile.getName());
+		}
 	}
 	
-	private static void clear(File fileName){
+	private String clear(){
 		BufferedWriter outputFile;
 		try{
-			outputFile = new BufferedWriter(new FileWriter(fileName.getName(), false));
+			outputFile = new BufferedWriter(new FileWriter(newFile.getName(), false));
 			outputFile.write("");
 			outputFile.close();
 		} catch (IOException e){
 			e.printStackTrace();
 		}
 		list.clear();
-		System.out.println(String.format(MESSAGE_CLEAR, fileName));
+		return String.format(MESSAGE_CLEAR, newFile.getName());
 	}
 	
-	private static void display(File fileName){
-		if (list.isEmpty())
-			System.out.println(String.format(MESSAGE_EMPTY, newFile));
+	private String display(){
+		if (list.isEmpty()) {
+			return String.format(MESSAGE_EMPTY, newFile);
+		}
 
-			for (int i = 0; i < list.size(); i++) {
-				System.out.print(i + 1 + ". ");
-				System.out.println(list.get(i));
-			}
+		String returnString = "";
+		for (int i = 0; i < list.size(); i++) {
+			returnString += i + 1 + ". ";
+			returnString += list.get(i) + "\n";
+		}
+		return returnString;
 	}
 	
-	private static void sort(File fileName){
-		
+	private String sort(){
+		return null;
 	}
 	
-	private static void search(String textInput, File fileName){
-		
-		for(int i = 0; i <list.size(); i++){
+	private String search(String textInput){
+		return null;
+		/*for(int i = 0; i <list.size(); i++){
 			String temp = list.get(i);
 			if(temp.contains(textInput)){
 				System.out.println(String.format(MESSAGE_SEARCH_SUCCESS, textInput));
@@ -192,7 +199,7 @@ public class TextBuddy {
 			else{
 				System.out.println(String.format(MESSAGE_SEARCH_FAIL, textInput));
 			}
-		}
+		}*/
 	}
 }
 
