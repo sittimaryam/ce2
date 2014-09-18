@@ -11,7 +11,7 @@ public class TextBuddyTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		String[] args = {"mytextfile.txt"};
+		String[] args = {"test.txt"};
 		tb = new TextBuddy(args);
 	}
 
@@ -23,7 +23,7 @@ public class TextBuddyTest {
 	//Sort nothing.
 	@Test
 	public void sortTc1() {
-		assertEquals("Successfully sorted \"mytextfile.txt\"", tb.executeCommand("sort"));
+		assertEquals("Successfully sorted \"test.txt\"", tb.executeCommand("sort"));
 	}
 	
 	//Sort one item.
