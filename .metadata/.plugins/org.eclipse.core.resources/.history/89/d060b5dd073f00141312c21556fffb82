@@ -97,29 +97,30 @@ public class TextBuddy {
 		String commandType = getFirstWord(userCommand.toUpperCase());
 
 		switch (commandType) {
-		case "EXIT" :
-			System.exit(0);
 
-		case "ADD" :
-			return add(textInput);
-
-		case "DELETE" :
-			return delete(textInput);
-
-		case "DISPLAY" :
-			return display();
-
-		case "CLEAR" :
-			return clear();
-
-		case "SORT" :
-			return sort();
-
-		case "SEARCH" :
-			return search(textInput);
-
-		default :
-			return MESSAGE_INVALID;
+			case "EXIT":
+				System.exit(0);
+	
+			case "ADD":
+				return add(textInput);
+	
+			case "DELETE":
+				return delete(textInput);
+	
+			case "DISPLAY":
+				return display();
+	
+			case "CLEAR":
+				return clear();
+	
+			case "SORT":
+				return sort();
+	
+			case "SEARCH":
+				return search(textInput);
+	
+			default:
+				return MESSAGE_INVALID;
 		}
 	}
 

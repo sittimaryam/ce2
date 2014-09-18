@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class TextBuddy {
-
+	
 	private String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use";
 	private String MESSAGE_INVALID = "Invalid command!";
 	private String MESSAGE_ADDED = "added to %s: \"%s\"";
@@ -28,7 +28,7 @@ public class TextBuddy {
 	private BufferedWriter buffWriter;
 
 	private Scanner scanner = new Scanner(System.in);
-
+	
 	// use ArrayList to store the input by user
 	private final ArrayList<String> list = new ArrayList<String>();
 
@@ -51,11 +51,11 @@ public class TextBuddy {
 			String userCommand = scanner.nextLine();
 
 			String printString = executeCommand(userCommand);
-
+			
 			showToUser(printString);
 		}
 	}
-
+	
 	private void showToUser(String printString) {
 		System.out.println(printString);
 	}
@@ -92,34 +92,27 @@ public class TextBuddy {
 	}
 
 	public String executeCommand(String userCommand) {
-
+		
 		String textInput = removeCommandType(userCommand);
 		String commandType = getFirstWord(userCommand.toUpperCase());
 
 		switch (commandType) {
-		case "EXIT" :
-			System.exit(0);
 
-		case "ADD" :
-			return add(textInput);
+		case "EXIT":	System.exit(0);
+						
+		case "ADD":		return add(textInput);
+		
+		case "DELETE":	return delete(textInput);
 
-		case "DELETE" :
-			return delete(textInput);
+		case "DISPLAY":	return display();
 
-		case "DISPLAY" :
-			return display();
+		case "CLEAR":	return clear();
+		
+		case "SORT":	return sort();
+						
+		case "SEARCH":	return search(textInput);
 
-		case "CLEAR" :
-			return clear();
-
-		case "SORT" :
-			return sort();
-
-		case "SEARCH" :
-			return search(textInput);
-
-		default :
-			return MESSAGE_INVALID;
+		default:		return MESSAGE_INVALID;
 		}
 	}
 
@@ -140,47 +133,47 @@ public class TextBuddy {
 			e.printStackTrace();
 		}
 	}
-
-	private String add(String textInput) {
+	
+	private String add(String textInput){
 		list.add(textInput);
 		writeToFile(textInput, newFile);
 		return String.format(MESSAGE_ADDED, newFile, textInput);
 	}
-
-	private String delete(String textInput) {
-
+	
+	private String delete(String textInput){
+		
 		int index = Integer.parseInt(textInput);
-		if (index > 0 && list.size() >= index) {
-			index = index - 1; // index start at 0
+		if(index > 0 && list.size() >= index){
+			index = index - 1; //index start at 0
 			String deletedText = list.get(index);
 			list.remove(index);
 			tempFile = new File("store.txt");
-			for (int i = 0; i < list.size(); i++) {
+			for(int i = 0; i<list.size(); i++) {
 				writeToFile(list.get(i), tempFile);
 			}
 			newFile.delete();
 			tempFile.renameTo(newFile);
 			return String.format(MESSAGE_DELETE, newFile, deletedText);
-		} else {
+		}
+		else {
 			return String.format(MESSAGE_INVALID, newFile.getName());
 		}
 	}
-
-	private String clear() {
+	
+	private String clear(){
 		BufferedWriter outputFile;
-		try {
-			outputFile = new BufferedWriter(new FileWriter(newFile.getName(),
-					false));
+		try{
+			outputFile = new BufferedWriter(new FileWriter(newFile.getName(), false));
 			outputFile.write("");
 			outputFile.close();
-		} catch (IOException e) {
+		} catch (IOException e){
 			e.printStackTrace();
 		}
 		list.clear();
 		return String.format(MESSAGE_CLEAR, newFile.getName());
 	}
-
-	private String display() {
+	
+	private String display(){
 		if (list.isEmpty()) {
 			return String.format(MESSAGE_EMPTY, newFile);
 		}
@@ -192,26 +185,27 @@ public class TextBuddy {
 		}
 		return returnString.trim();
 	}
-
-	private String sort() {
+	
+	private String sort(){
 		list.sort(String.CASE_INSENSITIVE_ORDER);
 		return String.format(MESSAGE_SORT_SUCCESS, newFile);
 	}
-
+	
 	private String search(String textInput) {
-		if (textInput == null || textInput.trim().length() == 0) {
+		if (textInput == null || textInput.trim().length()==0) {
 			return MESSAGE_SEARCH_INVALID;
 		}
 		String returnString = "";
-		for (String item : list) {
+		for (String item:list) {
 			if (item.contains(textInput)) {
-				returnString += "- " + item + "\n";
+				returnString += "- "+item+"\n";
 			}
 		}
-		if (returnString.length() == 0) {
+		if (returnString.length()==0) {
 			return String.format(MESSAGE_SEARCH_FAIL, textInput);
 		} else {
 			return returnString.trim();
 		}
 	}
 }
+
