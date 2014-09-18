@@ -12,18 +12,18 @@ import java.util.StringTokenizer;
 
 public class TextBuddy {
 
-	private String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use";
+	private String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use.";
 	private String MESSAGE_INVALID = "Invalid command!";
 	private String MESSAGE_ADDED = "added to %s: \"%s\"";
 	private String MESSAGE_CLEAR = "all content deleted from %s ";
 	private String MESSAGE_COMMAND = "command: ";
 	private String MESSAGE_DELETE = "deleted from %s: \"%s\"";
-	private String MESSAGE_EMPTY = "%s is empty";
+	private String MESSAGE_EMPTY = "%s is empty.";
 	private String MESSAGE_SEARCH_FAIL = "%s is not found.";
 	private String MESSAGE_SEARCH_INVALID = "Search invalid!";
-	private String MESSAGE_SORT_SUCCESS = "Successfully sorted \"%s\"";
+	private String MESSAGE_SORT_SUCCESS = "Successfully sorted! \"%s\"";
 
-	private File newFile, tempFile;
+	private File myFile, tempFile;
 	private BufferedWriter buffWriter;
 
 	private Scanner scanner = new Scanner(System.in);
@@ -38,11 +38,11 @@ public class TextBuddy {
 
 	public TextBuddy(String[] args) {
 		String fileName = args[0];
-		newFile = checkFile(fileName);
+		myFile = checkFile(fileName);
 	}
 
 	public void execute() {
-		System.out.println(String.format(MESSAGE_WELCOME, newFile));
+		System.out.println(String.format(MESSAGE_WELCOME, myFile));
 
 		while (true) {
 
@@ -142,8 +142,8 @@ public class TextBuddy {
 
 	private String add(String textInput) {
 		list.add(textInput);
-		writeToFile(textInput, newFile);
-		return String.format(MESSAGE_ADDED, newFile, textInput);
+		writeToFile(textInput, myFile);
+		return String.format(MESSAGE_ADDED, myFile, textInput);
 	}
 
 	private String delete(String textInput) {
@@ -157,18 +157,18 @@ public class TextBuddy {
 			for (int i = 0; i < list.size(); i++) {
 				writeToFile(list.get(i), tempFile);
 			}
-			newFile.delete();
-			tempFile.renameTo(newFile);
-			return String.format(MESSAGE_DELETE, newFile, deletedText);
+			myFile.delete();
+			tempFile.renameTo(myFile);
+			return String.format(MESSAGE_DELETE, myFile, deletedText);
 		} else {
-			return String.format(MESSAGE_INVALID, newFile.getName());
+			return String.format(MESSAGE_INVALID, myFile.getName());
 		}
 	}
 
 	private String clear() {
 		BufferedWriter outputFile;
 		try {
-			outputFile = new BufferedWriter(new FileWriter(newFile.getName(),
+			outputFile = new BufferedWriter(new FileWriter(myFile.getName(),
 					false));
 			outputFile.write("");
 			outputFile.close();
@@ -176,12 +176,12 @@ public class TextBuddy {
 			e.printStackTrace();
 		}
 		list.clear();
-		return String.format(MESSAGE_CLEAR, newFile.getName());
+		return String.format(MESSAGE_CLEAR, myFile.getName());
 	}
 
 	private String display() {
 		if (list.isEmpty()) {
-			return String.format(MESSAGE_EMPTY, newFile);
+			return String.format(MESSAGE_EMPTY, myFile);
 		}
 
 		String returnString = "";
@@ -194,7 +194,7 @@ public class TextBuddy {
 
 	private String sort() {
 		list.sort(String.CASE_INSENSITIVE_ORDER);
-		return String.format(MESSAGE_SORT_SUCCESS, newFile);
+		return String.format(MESSAGE_SORT_SUCCESS, myFile);
 	}
 
 	private String search(String textInput) {
