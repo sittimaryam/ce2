@@ -71,6 +71,7 @@ public class TextBuddyTest {
 		assertEquals("- apple1\n- apple2\n", tb.executeCommand("search app"));
 	}
 	
+
 	//Search for non-existent item.
 	@Test
 	public void searchTc5() {

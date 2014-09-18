@@ -204,7 +204,7 @@ public class TextBuddy {
 		if (returnString.length()==0) {
 			return String.format(MESSAGE_SEARCH_FAIL, textInput);
 		} else {
-			return returnString.trim();
+			return returnString;
 		}
 	}
 }

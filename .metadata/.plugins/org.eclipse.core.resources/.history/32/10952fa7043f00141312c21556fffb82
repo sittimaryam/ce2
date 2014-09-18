@@ -183,7 +183,7 @@ public class TextBuddy {
 			returnString += i + 1 + ". ";
 			returnString += list.get(i) + "\n";
 		}
-		return returnString.trim();
+		return returnString;
 	}
 	
 	private String sort(){
@@ -201,11 +201,7 @@ public class TextBuddy {
 				returnString += "- "+item+"\n";
 			}
 		}
-		if (returnString.length()==0) {
-			return String.format(MESSAGE_SEARCH_FAIL, textInput);
-		} else {
-			return returnString.trim();
-		}
+		return returnString;
 	}
 }
 
