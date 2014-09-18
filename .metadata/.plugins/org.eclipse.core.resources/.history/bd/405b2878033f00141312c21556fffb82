@@ -48,11 +48,4 @@ public class TextBuddyTest {
 	public void searchTc1() {
 		assertEquals("Search invalid.", tb.executeCommand("search"));
 	}
-	
-	//Search for one exact item.
-	@Test
-	public void searchTc2() {
-		tb.executeCommand("add apple");
-		assertEquals("- apple\n", tb.executeCommand("search apple"));
-	}
 }

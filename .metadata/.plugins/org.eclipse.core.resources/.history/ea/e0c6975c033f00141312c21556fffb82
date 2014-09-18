@@ -192,7 +192,7 @@ public class TextBuddy {
 	}
 	
 	private String search(String textInput) {
-		if (textInput == null || textInput.trim().length()==0) {
+		if (null || textInput.trim().length()==0) {
 			return MESSAGE_SEARCH_INVALID;
 		}
 		return null;
