@@ -195,7 +195,7 @@ public class TextBuddy {
 		if (textInput == null || textInput.trim().length()==0) {
 			return MESSAGE_SEARCH_INVALID;
 		}
-		return "- "+textInput+"\n";
+		return "- "+textInput\n;
 		/*for(int i = 0; i <list.size(); i++){
 			String temp = list.get(i);
 			if(temp.contains(textInput)){

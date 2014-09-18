@@ -55,11 +55,4 @@ public class TextBuddyTest {
 		tb.executeCommand("add apple");
 		assertEquals("- apple\n", tb.executeCommand("search apple"));
 	}
-	
-	//Search for one partial item.
-	@Test
-	public void searchTc3() {
-		tb.executeCommand("add apple");
-		assertEquals("- apple\n", tb.executeCommand("search app"));
-	}
 }

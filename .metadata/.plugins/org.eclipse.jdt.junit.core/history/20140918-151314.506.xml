@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TextBuddyTest" project="TextBuddy" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="TextBuddyTest" time="0.035">
+    <testcase name="sortTc1" classname="TextBuddyTest" time="0.017"/>
+    <testcase name="sortTc2" classname="TextBuddyTest" time="0.006"/>
+    <testcase name="sortTc3" classname="TextBuddyTest" time="0.007"/>
+    <testcase name="searchTc1" classname="TextBuddyTest" time="0.005"/>
+  </testsuite>
+</testrun>
