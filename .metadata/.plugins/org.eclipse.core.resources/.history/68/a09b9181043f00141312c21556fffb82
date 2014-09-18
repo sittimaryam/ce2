@@ -74,7 +74,7 @@ public class TextBuddyTest {
 
 	//Search for non-existent item.
 	@Test
-	public void searchTc5() {
+	public void searchTc4() {
 		tb.executeCommand("add apple1");
 		tb.executeCommand("add apple2");
 		assertEquals("orange is not found.\n", tb.executeCommand("search orange"));

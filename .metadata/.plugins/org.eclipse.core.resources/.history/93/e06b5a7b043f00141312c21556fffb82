@@ -62,21 +62,12 @@ public class TextBuddyTest {
 		tb.executeCommand("add apple");
 		assertEquals("- apple\n", tb.executeCommand("search app"));
 	}
-
+	
 	//Search for two or more partial items.
 	@Test
 	public void searchTc4() {
 		tb.executeCommand("add apple1");
 		tb.executeCommand("add apple2");
 		assertEquals("- apple1\n- apple2\n", tb.executeCommand("search app"));
-	}
-	
-
-	//Search for non-existent item.
-	@Test
-	public void searchTc5() {
-		tb.executeCommand("add apple1");
-		tb.executeCommand("add apple2");
-		assertEquals("orange is not found.\n", tb.executeCommand("search orange"));
 	}
 }
