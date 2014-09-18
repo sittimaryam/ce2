@@ -187,12 +187,10 @@ public class TextBuddy {
 	}
 	
 	private String sort(){
-		list.sort(String.CASE_INSENSITIVE_ORDER);
 		return String.format(MESSAGE_SORT_SUCCESS, newFile);
 	}
 	
 	private String search(String textInput) {
-		return null;
 		/*for(int i = 0; i <list.size(); i++){
 			String temp = list.get(i);
 			if(temp.contains(textInput)){

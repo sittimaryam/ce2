@@ -192,7 +192,6 @@ public class TextBuddy {
 	}
 	
 	private String search(String textInput) {
-		return null;
 		/*for(int i = 0; i <list.size(); i++){
 			String temp = list.get(i);
 			if(temp.contains(textInput)){
